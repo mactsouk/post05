@@ -5,6 +5,13 @@ import (
 )
 
 // Connection details
+var (
+	host     = ""
+	p        = 2345
+	user     = ""
+	pass     = ""
+	database = ""
+)
 
 type User struct {
 	ID       int
