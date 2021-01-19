@@ -14,7 +14,7 @@ type Userdata struct {
 
 // The function returns the User ID of the user
 // -1 if the user does not exist
-func UsernameExists(id int) int {
+func exists(id int) int {
 
 }
 
