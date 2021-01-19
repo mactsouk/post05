@@ -6,11 +6,11 @@ import (
 
 // Connection details
 var (
-	host     = ""
-	p        = 2345
-	user     = ""
-	pass     = ""
-	database = ""
+	Hostname = ""
+	Post     = 2345
+	Username = ""
+	Password = ""
+	Database = ""
 )
 
 type User struct {
