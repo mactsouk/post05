@@ -22,9 +22,11 @@ type User struct {
 	Username string
 }
 
-// Userdata is for holding data from Userdata table
+// Userdata is for holding full user data
+// Userdata table + Username
 type Userdata struct {
 	ID          int
+	Username    string
 	Name        string
 	Surname     string
 	Description string
@@ -43,14 +45,17 @@ func openConnection() (*sql.DB, error) {
 	return db, nil
 }
 
-// The function returns the User ID of the user
+// The function returns the User ID of the username
 // -1 if the user does not exist
-func exists(id int) int {
+func exists(username string) int {
 	db, err := openConnection()
 	if err != nil {
 		fmt.Println(err)
 		return -1
 	}
+	defer db.Close()
+
+	return -1
 
 }
 
@@ -61,6 +66,7 @@ func AddUser() bool {
 		fmt.Println(err)
 		return false
 	}
+	defer db.Close()
 
 	return true
 }
@@ -72,33 +78,36 @@ func DeleteUser(id int) bool {
 		fmt.Println(err)
 		return false
 	}
+	defer db.Close()
 
 	return true
 }
 
 // ListUsers lists all users in the database
-func ListUsers() []User, error {
-	Data := []User{}
+func ListUsers() ([]Userdata, error) {
+	Data := []Userdata{}
 
 	db, err := openConnection()
 	if err != nil {
 		return Data, err
 	}
+	defer db.Close()
 
-	rows, err := db.Query(`SELECT "datname" FROM "pg_database" WHERE datistemplate = false`)
+	rows, err := db.Query(`SELECT "ID","Username" FROM "Users"`)
 	if err != nil {
 		fmt.Println("Query", err)
 		return Data, err
 	}
 
 	for rows.Next() {
+		var id string
 		var name string
-		err = rows.Scan(&name)
+		err = rows.Scan(&id, &name)
 		if err != nil {
 			fmt.Println("Scan", err)
 			return Data, err
 		}
-		fmt.Println("*", name)
+		fmt.Println("*", id, name)
 	}
 	defer rows.Close()
 
@@ -114,6 +123,7 @@ func UpdateUser() bool {
 		fmt.Println(err)
 		return false
 	}
+	defer db.Close()
 
 	return true
 }
