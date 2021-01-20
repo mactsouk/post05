@@ -35,7 +35,7 @@ type Userdata struct {
 func openConnection() (*sql.DB, error) {
 	// connection string
 	conn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		Hostname, Post, Username, Password, Database)
+		Hostname, Port, Username, Password, Database)
 
 	// open database
 	db, err := sql.Open("postgres", conn)
