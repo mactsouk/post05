@@ -50,19 +50,19 @@ func exists(username string) int {
 	defer db.Close()
 
 	return -1
-
 }
 
 // AddUser adds a new user to the database
-func AddUser() bool {
+// Returns new User ID
+func AddUser(d Userdata) int {
 	db, err := openConnection()
 	if err != nil {
 		fmt.Println(err)
-		return false
+		return -1
 	}
 	defer db.Close()
 
-	return true
+	return -1
 }
 
 // DeleteUser deletes an existing user
@@ -73,6 +73,10 @@ func DeleteUser(id int) bool {
 		return false
 	}
 	defer db.Close()
+
+	// Delete from Userdata
+
+	// Delete from Users
 
 	return true
 }
@@ -111,7 +115,7 @@ func ListUsers() ([]Userdata, error) {
 // UpdateUser is for updating an existing user
 // Returns true on success
 // False on failure
-func UpdateUser() bool {
+func UpdateUser(d Userdata) bool {
 	db, err := openConnection()
 	if err != nil {
 		fmt.Println(err)
