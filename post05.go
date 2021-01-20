@@ -16,12 +16,6 @@ var (
 	Database = ""
 )
 
-// User is for holding data from the User table
-type User struct {
-	ID       int
-	Username string
-}
-
 // Userdata is for holding full user data
 // Userdata table + Username
 type Userdata struct {
