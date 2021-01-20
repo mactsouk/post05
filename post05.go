@@ -10,7 +10,7 @@ import (
 // Connection details
 var (
 	Hostname = ""
-	Post     = 2345
+	Port     = 2345
 	Username = ""
 	Password = ""
 	Database = ""
