@@ -93,7 +93,7 @@ func ListUsers() ([]Userdata, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query(`SELECT "ID","Username" FROM "Users"`)
+	rows, err := db.Query(`SELECT "id","username" FROM "users"`)
 	if err != nil {
 		fmt.Println("Query", err)
 		return Data, err
