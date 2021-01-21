@@ -49,11 +49,26 @@ func exists(username string) int {
 	}
 	defer db.Close()
 
-	return -1
+	userID int = -1
+	statement := "SELECT ID FROM users where Username = " + username
+	rows, err := db.Query(statement)
+	for rows.Next() {
+		var id int
+		err = rows.Scan(&id)
+		if err != nil {
+			fmt.Println("Scan", err)
+			
+		}
+		userID = id
+		fmt.Println("*", userID)
+	}
+	defer rows.Close()
+	return userID
 }
 
 // AddUser adds a new user to the database
 // Returns new User ID
+// -1 if there was an error
 func AddUser(d Userdata) int {
 	db, err := openConnection()
 	if err != nil {
@@ -62,7 +77,26 @@ func AddUser(d Userdata) int {
 	}
 	defer db.Close()
 
-	return -1
+	insertStatemet := `insert into "users" ("username") values ($1)`
+	_, err = db.Exec(insertStatemet, d.Username)
+	if err != nil {
+		fmt.Println(err)
+		return -1
+	}
+
+	userID := exists(d.Username)
+	if userID == -1 {
+		return userID
+	}
+
+	insertStatemet := `insert into "userdata" ("userid", "name", "surname", "description") values ($1, $2, $3, $4)`
+	_, err = db.Exec(insertStatemet, userID, d.Name, d.Surname, d.Description)
+	if err != nil {
+		fmt.Println(err)
+		return -1
+	}
+
+	return userID
 }
 
 // DeleteUser deletes an existing user
