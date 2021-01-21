@@ -49,7 +49,7 @@ func exists(username string) int {
 	}
 	defer db.Close()
 
-	userID int = -1
+	userID := -1
 	statement := "SELECT ID FROM users where Username = " + username
 	rows, err := db.Query(statement)
 	for rows.Next() {
@@ -57,7 +57,7 @@ func exists(username string) int {
 		err = rows.Scan(&id)
 		if err != nil {
 			fmt.Println("Scan", err)
-			
+
 		}
 		userID = id
 		fmt.Println("*", userID)
@@ -89,7 +89,7 @@ func AddUser(d Userdata) int {
 		return userID
 	}
 
-	insertStatemet := `insert into "userdata" ("userid", "name", "surname", "description") values ($1, $2, $3, $4)`
+	insertStatemet = `insert into "userdata" ("userid", "name", "surname", "description") values ($1, $2, $3, $4)`
 	_, err = db.Exec(insertStatemet, userID, d.Name, d.Surname, d.Description)
 	if err != nil {
 		fmt.Println(err)
