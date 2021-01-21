@@ -184,11 +184,12 @@ func UpdateUser(d Userdata) error {
 	if userID == -1 {
 		return errors.New("User does not exists!")
 	}
+	d.ID = userID
+	fmt.Println(d)
 
 	updateStatement := `update "userdata" set "name"=$1, "surname"=$2, "description"=$3 where "userid"=$4`
 	_, err = db.Exec(updateStatement, d.Name, d.Surname, d.Description, d.ID)
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
