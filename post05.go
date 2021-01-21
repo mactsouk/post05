@@ -50,7 +50,7 @@ func exists(username string) int {
 	defer db.Close()
 
 	userID := -1
-	statement := "SELECT ID FROM users where Username = " + username
+	statement := fmt.Sprintf(`"SELECT "id" FROM "users" where username = "%s"`, username)
 	fmt.Println("exists()", statement)
 	rows, err := db.Query(statement)
 	for rows.Next() {
@@ -140,13 +140,13 @@ func ListUsers() ([]Userdata, error) {
 
 	for rows.Next() {
 		var id string
-		var name string
-		err = rows.Scan(&id, &name)
+		var username string
+		err = rows.Scan(&id, &username)
 		if err != nil {
 			fmt.Println("Scan", err)
 			return Data, err
 		}
-		fmt.Println("*", id, name)
+		fmt.Println("*", id, username)
 	}
 	defer rows.Close()
 
