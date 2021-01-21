@@ -145,7 +145,7 @@ func ListUsers() ([]Userdata, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query(`SELECT "id","username" FROM "users"`)
+	rows, err := db.Query(`SELECT "id","username","name","surname","description" FROM "users","userdata" WHERE users.id = username.userid`)
 	if err != nil {
 		fmt.Println("Query", err)
 		return Data, err
@@ -154,8 +154,11 @@ func ListUsers() ([]Userdata, error) {
 	for rows.Next() {
 		var id int
 		var username string
-		err = rows.Scan(&id, &username)
-		temp := Userdata{ID: id, Username: username}
+		var name string
+		var surname string
+		var description string
+		err = rows.Scan(&id, &username, &name, &surname, &description)
+		temp := Userdata{ID: id, Username: username, Name: name, Surname: surname, Description: description}
 		Data = append(Data, temp)
 		if err != nil {
 			fmt.Println("Scan", err)
