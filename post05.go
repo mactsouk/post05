@@ -64,7 +64,6 @@ func exists(username string) int {
 
 		}
 		userID = id
-		fmt.Println("*", userID)
 	}
 	defer rows.Close()
 	return userID
@@ -139,7 +138,6 @@ func DeleteUser(id int) error {
 // ListUsers lists all users in the database
 func ListUsers() ([]Userdata, error) {
 	Data := []Userdata{}
-
 	db, err := openConnection()
 	if err != nil {
 		return Data, err
@@ -148,7 +146,6 @@ func ListUsers() ([]Userdata, error) {
 
 	rows, err := db.Query(`SELECT "id","username","name","surname","description" FROM "users","userdata" WHERE users.id = userdata.userid`)
 	if err != nil {
-		fmt.Println("Query", err)
 		return Data, err
 	}
 
@@ -162,12 +159,10 @@ func ListUsers() ([]Userdata, error) {
 		temp := Userdata{ID: id, Username: username, Name: name, Surname: surname, Description: description}
 		Data = append(Data, temp)
 		if err != nil {
-			fmt.Println("Scan", err)
 			return Data, err
 		}
 	}
 	defer rows.Close()
-
 	return Data, nil
 }
 
@@ -175,7 +170,6 @@ func ListUsers() ([]Userdata, error) {
 func UpdateUser(d Userdata) error {
 	db, err := openConnection()
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 	defer db.Close()
@@ -185,8 +179,6 @@ func UpdateUser(d Userdata) error {
 		return errors.New("User does not exists!")
 	}
 	d.ID = userID
-	fmt.Println(d)
-
 	updateStatement := `update "userdata" set "name"=$1, "surname"=$2, "description"=$3 where "userid"=$4`
 	_, err = db.Exec(updateStatement, d.Name, d.Surname, d.Description, d.ID)
 	if err != nil {
