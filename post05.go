@@ -54,7 +54,6 @@ func exists(username string) int {
 
 	userID := -1
 	statement := fmt.Sprintf(`SELECT "id" FROM "users" where username = '%s'`, username)
-	fmt.Println("exists()", statement)
 	rows, err := db.Query(statement)
 	for rows.Next() {
 		var id int
@@ -156,11 +155,12 @@ func ListUsers() ([]Userdata, error) {
 		var id string
 		var username string
 		err = rows.Scan(&id, &username)
+		temp := Userdata{ID: id, Username: username}
+		Data = append(Data, temp)
 		if err != nil {
 			fmt.Println("Scan", err)
 			return Data, err
 		}
-		fmt.Println("*", id, username)
 	}
 	defer rows.Close()
 
