@@ -3,6 +3,7 @@ package post05
 import (
 	"database/sql"
 	"fmt"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -42,6 +43,8 @@ func openConnection() (*sql.DB, error) {
 // The function returns the User ID of the username
 // -1 if the user does not exist
 func exists(username string) int {
+	username = strings.ToLower(username)
+
 	db, err := openConnection()
 	if err != nil {
 		fmt.Println(err)
@@ -71,6 +74,8 @@ func exists(username string) int {
 // Returns new User ID
 // -1 if there was an error
 func AddUser(d Userdata) int {
+	d.Username = strings.ToLower(d.Username)
+
 	db, err := openConnection()
 	if err != nil {
 		fmt.Println(err)
@@ -116,8 +121,20 @@ func DeleteUser(id int) bool {
 	defer db.Close()
 
 	// Delete from Userdata
+	deleteStatement := `delete from "userdata" where id=$1`
+	_, e := db.Exec(deleteStatement, id)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
 
 	// Delete from Users
+	deleteStatement = `delete from "users" where id=$1`
+	_, e = db.Exec(deleteStatement, id)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
 
 	return true
 }
