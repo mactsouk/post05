@@ -180,7 +180,7 @@ func UpdateUser(d Userdata) error {
 	}
 	defer db.Close()
 
-	userID = exists(d.Username)
+	userID := exists(d.Username)
 	if userID == -1 {
 		return errors.New("User does not exists!")
 	}
