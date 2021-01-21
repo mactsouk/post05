@@ -50,7 +50,7 @@ func exists(username string) int {
 	defer db.Close()
 
 	userID := -1
-	statement := fmt.Sprintf(`SELECT "id" FROM "users" where username = "%s"`, username)
+	statement := fmt.Sprintf(`SELECT "id" FROM "users" where username = '%s'`, username)
 	fmt.Println("exists()", statement)
 	rows, err := db.Query(statement)
 	for rows.Next() {
