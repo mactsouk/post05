@@ -122,7 +122,7 @@ func DeleteUser(id int) bool {
 
 	// Delete from Userdata
 	deleteStatement := `delete from "userdata" where id=$1`
-	_, err := db.Exec(deleteStatement, id)
+	_, err = db.Exec(deleteStatement, id)
 	if err != nil {
 		fmt.Println(err)
 		return false
