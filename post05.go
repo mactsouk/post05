@@ -51,6 +51,7 @@ func exists(username string) int {
 
 	userID := -1
 	statement := "SELECT ID FROM users where Username = " + username
+	fmt.Println("exists()", statement)
 	rows, err := db.Query(statement)
 	for rows.Next() {
 		var id int
@@ -77,6 +78,12 @@ func AddUser(d Userdata) int {
 	}
 	defer db.Close()
 
+	userID := exists(d.Username)
+	if userID != -1 {
+		fmt.Println("User already exists:", Username)
+		return -1
+	}
+
 	insertStatemet := `insert into "users" ("username") values ($1)`
 	_, err = db.Exec(insertStatemet, d.Username)
 	if err != nil {
@@ -84,7 +91,7 @@ func AddUser(d Userdata) int {
 		return -1
 	}
 
-	userID := exists(d.Username)
+	userID = exists(d.Username)
 	if userID == -1 {
 		return userID
 	}
@@ -92,7 +99,7 @@ func AddUser(d Userdata) int {
 	insertStatemet = `insert into "userdata" ("userid", "name", "surname", "description") values ($1, $2, $3, $4)`
 	_, err = db.Exec(insertStatemet, userID, d.Name, d.Surname, d.Description)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("db.Exec()", err)
 		return -1
 	}
 
