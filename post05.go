@@ -112,11 +112,10 @@ func AddUser(d Userdata) int {
 }
 
 // DeleteUser deletes an existing user
-func DeleteUser(id int) bool {
+func DeleteUser(id int) error {
 	db, err := openConnection()
 	if err != nil {
-		fmt.Println(err)
-		return false
+		return error
 	}
 	defer db.Close()
 
@@ -124,19 +123,17 @@ func DeleteUser(id int) bool {
 	deleteStatement := `delete from "userdata" where id=$1`
 	_, err = db.Exec(deleteStatement, id)
 	if err != nil {
-		fmt.Println(err)
-		return false
+		return error
 	}
 
 	// Delete from Users
 	deleteStatement = `delete from "users" where id=$1`
 	_, err = db.Exec(deleteStatement, id)
 	if err != nil {
-		fmt.Println(err)
-		return false
+		return error
 	}
 
-	return true
+	return nil
 }
 
 // ListUsers lists all users in the database
