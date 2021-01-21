@@ -145,7 +145,7 @@ func ListUsers() ([]Userdata, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query(`SELECT "id","username","name","surname","description" FROM "users","userdata" WHERE users.id = username.userid`)
+	rows, err := db.Query(`SELECT "id","username","name","surname","description" FROM "users","userdata" WHERE users.id = userdata.userid`)
 	if err != nil {
 		fmt.Println("Query", err)
 		return Data, err
