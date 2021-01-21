@@ -152,7 +152,7 @@ func ListUsers() ([]Userdata, error) {
 	}
 
 	for rows.Next() {
-		var id string
+		var id int
 		var username string
 		err = rows.Scan(&id, &username)
 		temp := Userdata{ID: id, Username: username}
