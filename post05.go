@@ -120,7 +120,7 @@ func DeleteUser(id int) error {
 	defer db.Close()
 
 	// Delete from Userdata
-	deleteStatement := `delete from "userdata" where id=$1`
+	deleteStatement := `delete from "userdata" where userid=$1`
 	_, err = db.Exec(deleteStatement, id)
 	if err != nil {
 		return err
