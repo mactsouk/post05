@@ -115,7 +115,7 @@ func AddUser(d Userdata) int {
 func DeleteUser(id int) error {
 	db, err := openConnection()
 	if err != nil {
-		return error
+		return err
 	}
 	defer db.Close()
 
@@ -123,14 +123,14 @@ func DeleteUser(id int) error {
 	deleteStatement := `delete from "userdata" where id=$1`
 	_, err = db.Exec(deleteStatement, id)
 	if err != nil {
-		return error
+		return err
 	}
 
 	// Delete from Users
 	deleteStatement = `delete from "users" where id=$1`
 	_, err = db.Exec(deleteStatement, id)
 	if err != nil {
-		return error
+		return err
 	}
 
 	return nil
