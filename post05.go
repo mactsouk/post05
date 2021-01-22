@@ -100,7 +100,8 @@ func AddUser(d Userdata) int {
 		return userID
 	}
 
-	insertStatemet = `insert into "userdata" ("userid", "name", "surname", "description") values ($1, $2, $3, $4)`
+	insertStatemet = `insert into "userdata" ("userid", "name", "surname", "description")
+	values ($1, $2, $3, $4)`
 	_, err = db.Exec(insertStatemet, userID, d.Name, d.Surname, d.Description)
 	if err != nil {
 		fmt.Println("db.Exec()", err)
@@ -144,7 +145,9 @@ func ListUsers() ([]Userdata, error) {
 	}
 	defer db.Close()
 
-	rows, err := db.Query(`SELECT "id","username","name","surname","description" FROM "users","userdata" WHERE users.id = userdata.userid`)
+	rows, err := db.Query(`SELECT "id","username","name","surname","description"
+		FROM "users","userdata"
+		WHERE users.id = userdata.userid`)
 	if err != nil {
 		return Data, err
 	}
