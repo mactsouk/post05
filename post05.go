@@ -56,12 +56,13 @@ func exists(username string) int {
 	userID := -1
 	statement := fmt.Sprintf(`SELECT "id" FROM "users" where username = '%s'`, username)
 	rows, err := db.Query(statement)
+
 	for rows.Next() {
 		var id int
 		err = rows.Scan(&id)
 		if err != nil {
 			fmt.Println("Scan", err)
-
+			return -1
 		}
 		userID = id
 	}
@@ -118,6 +119,11 @@ func DeleteUser(id int) error {
 		return err
 	}
 	defer db.Close()
+
+	userID = exists(d.Username)
+	if userID == -1 {
+		return errors.New("User does not exist")
+	}
 
 	// Delete from Userdata
 	deleteStatement := `delete from "userdata" where userid=$1`
@@ -179,7 +185,7 @@ func UpdateUser(d Userdata) error {
 
 	userID := exists(d.Username)
 	if userID == -1 {
-		return errors.New("User does not exists!")
+		return errors.New("User does not exist")
 	}
 	d.ID = userID
 	updateStatement := `update "userdata" set "name"=$1, "surname"=$2, "description"=$3 where "userid"=$4`
