@@ -134,7 +134,7 @@ func DeleteUser(id int) error {
 	}
 
 	if newID != id {
-		return errors.New("User %d does not exist", id)
+		return fmt.Errorf("User %d does not exist", id)
 	}
 
 	// Delete from Userdata
