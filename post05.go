@@ -134,7 +134,7 @@ func DeleteUser(id int) error {
 	defer rows.Close()
 
 	if exists(username) != id {
-		return fmt.Errorf("User %s with ID %d does not exist", username, id)
+		return fmt.Errorf("User with ID %d does not exist", id)
 	}
 
 	// Delete from Userdata
