@@ -129,7 +129,7 @@ func DeleteUser(id int) error {
 	for rows.Next() {
 		err = rows.Scan(&newID)
 		if err != nil {
-			return errors.New("Scan error:", err)
+			return fmt.Errorf("Scan error:", err)
 		}
 	}
 
