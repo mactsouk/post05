@@ -89,8 +89,8 @@ func AddUser(d Userdata) int {
 		return -1
 	}
 
-	insertStatemet := `insert into "users" ("username") values ($1)`
-	_, err = db.Exec(insertStatemet, d.Username)
+	insertStatement := `insert into "users" ("username") values ($1)`
+	_, err = db.Exec(insertStatement, d.Username)
 	if err != nil {
 		fmt.Println(err)
 		return -1
@@ -101,9 +101,9 @@ func AddUser(d Userdata) int {
 		return userID
 	}
 
-	insertStatemet = `insert into "userdata" ("userid", "name", "surname", "description")
+	insertStatement = `insert into "userdata" ("userid", "name", "surname", "description")
 	values ($1, $2, $3, $4)`
-	_, err = db.Exec(insertStatemet, userID, d.Name, d.Surname, d.Description)
+	_, err = db.Exec(insertStatement, userID, d.Name, d.Surname, d.Description)
 	if err != nil {
 		fmt.Println("db.Exec()", err)
 		return -1
